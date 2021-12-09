@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from .models import User
+from .models import Paquete, User
 
 # Create your views here.
 
@@ -62,3 +62,16 @@ def register_view(request):
     else:
         return render(request, "register.html")
 
+def perfil_view(request):
+    return render(request, "perfil.html")
+
+def crear_paquete_view(request):
+    if request.method == "GET":
+        return render(request, "crear_paquete.html")
+    else:
+        nombre = request.POST.get("nombre")
+        descripcion = request.POST.get("descripcion")
+        precio = request.POST.get("precio")
+        paquete = Paquete(nombre=nombre, descripcion=descripcion, precio=precio)
+        paquete.save()
+        return render(request, "crear_paquete.html", {"message": "Paquete creado"})

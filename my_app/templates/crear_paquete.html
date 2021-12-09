@@ -1,0 +1,24 @@
+{% extends 'template.html' %}
+
+{% block content %}
+    creando paquete
+
+    <div class="container text-light">
+        <form action="{% url 'crear_paquete' %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre del paquete</label>
+                <input type="text" class="form-control" id="nombre" name="nombre">
+            </div>
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripcion</label>
+                <input type="text" class="form-control" id="descripcion" name="descripcion">
+            </div>
+            <div class="mb-3">
+                <label for="precio" class="form-label">Precio</label>
+                <input type="text" class="form-control" id="precio" name="precio">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Crear Paquete</button>
+        </form>
+    </div>
+{% endblock %}

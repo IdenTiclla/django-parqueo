@@ -1,0 +1,60 @@
+{% extends 'template.html' %}
+
+
+{% block content %}
+
+<div class="wrapper bg-white mt-sm-5">
+    <h4 class="pb-4 border-bottom">Perfil de Usuario</h4>
+    <div class="d-flex align-items-start py-3 border-bottom"> 
+        <img src="https://images.pexels.com/photos/1037995/pexels-photo-1037995.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" class="img" alt="">
+        <div class="pl-sm-4 pl-2" id="img-section"> <b>Foto de perfil</b>
+            <p>Accepted file type .png. Less than 1MB</p> <button class="btn button border"><b>Upload</b></button>
+        </div>
+    </div>
+    <div class="py-2">
+        <div class="row py-2">
+            <div class="col-md-6"> 
+                <label for="firstname">Nombre</label> 
+                <input type="text" class="bg-light form-control" placeholder="{{user.first_name}}"> 
+            </div>
+            <div class="col-md-6 pt-md-0 pt-3">
+                <label for="lastname">Apellido</label> 
+                <input type="text"class="bg-light form-control" placeholder="{{user.last_name}}"> 
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-md-6"> 
+                <label for="email">Correo Electronico</label>
+                <input type="text" class="bg-light form-control" placeholder="{{user.email}}">
+            </div>
+            <div class="col-md-6 pt-md-0 pt-3">
+                <label for="phone">Telefono</label>
+                <input type="tel" class="bg-light form-control" placeholder="{{user.telefono}}">
+            </div>
+        </div>
+
+        <div class="row py-2">
+            <div class="col-md-6">
+                <label for="ci">Cedula de Identidad</label>
+                <input type="text" class="bg-light form-control" placeholder="{{user.ci}}">
+            </div>
+            <div class="col-md-6 pt-md-0 pt-3">
+                <label for="phone">Tipo de Usuario</label>
+                <input type="text" class="bg-light form-control" placeholder="{{user.tipo}}">
+            </div>
+            <div class="col-md-6 pt-md-0 pt-3">
+                <label for="phone">Nombre de Usuario</label>
+                <input type="text" class="bg-light form-control" placeholder="{{user.username}}">
+            </div>
+        </div>
+
+
+
+        <div class="py-3 pb-4 border-bottom"> <button class="btn btn-primary mr-3">Save Changes</button> <button
+                class="btn border button">Cancel</button> </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
