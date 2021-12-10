@@ -10,4 +10,5 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("perfil", views.perfil_view, name="perfil"),
     path("crear_paquete", views.crear_paquete_view, name="crear_paquete"),
+    path("paquetes", views.paquetes_view, name="paquetes"),
 ]

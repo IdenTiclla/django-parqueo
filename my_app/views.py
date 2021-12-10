@@ -75,3 +75,8 @@ def crear_paquete_view(request):
         paquete = Paquete(nombre=nombre, descripcion=descripcion, precio=precio)
         paquete.save()
         return render(request, "crear_paquete.html", {"message": "Paquete creado"})
+
+def paquetes_view(request):
+    paquetes = Paquete.objects.all()
+    return render(request, "paquetes.html", {"paquetes": paquetes})
+    
