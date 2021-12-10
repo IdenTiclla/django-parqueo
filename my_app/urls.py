@@ -11,4 +11,5 @@ urlpatterns = [
     path("perfil", views.perfil_view, name="perfil"),
     path("crear_paquete", views.crear_paquete_view, name="crear_paquete"),
     path("paquetes", views.paquetes_view, name="paquetes"),
+    path("registrar_vehiculo", views.registrar_vehiculo_view, name="registrar_vehiculo"),
 ]

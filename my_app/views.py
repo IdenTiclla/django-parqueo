@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from .models import Paquete, User
+from .models import Paquete, User, TipoVehiculo
 
 # Create your views here.
 
@@ -80,3 +80,19 @@ def paquetes_view(request):
     paquetes = Paquete.objects.all()
     return render(request, "paquetes.html", {"paquetes": paquetes})
     
+def registrar_vehiculo_view(request):
+    if request.method == "GET":
+        tipos = TipoVehiculo.objects.all()
+        return render(request, "registrar_vehiculo.html", {"tipos": tipos})
+    else:
+        placa = request.POST.get("placa")
+        model = request.POST.get("modelo")
+        color = request.POST.get("color")
+        user = request.user
+        tipo_id = request.POST.get("tipo")
+        tipo = TipoVehiculo.objects.get(id=tipo_id)
+
+        new_vehiculo = tipo.vehiculo_set.create(placa=placa, model=model, color=color, user=user, tipo=tipo)
+        new_vehiculo.save()
+
+        return render(request, "registrar_vehiculo.html", {"message": "Vehiculo registrado"})
