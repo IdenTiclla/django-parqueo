@@ -7,6 +7,7 @@ class Paquete(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.TextField()
     precio = models.FloatField()
+    foto = models.ImageField(upload_to='paquetes', null=True, blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -20,7 +21,7 @@ class User(AbstractUser):
     ci = models.IntegerField(unique=True)
     telefono = models.IntegerField(null=True)
     tipo = models.CharField(max_length=20, null=False, blank=False)
-    foto = models.ImageField(upload_to='fotos', null=True, blank=True)
+    foto = models.ImageField(upload_to='users', null=True, blank=True)
 
     class Meta:
         db_table = "users"
@@ -52,11 +53,11 @@ class TipoVehiculo(models.Model):
 class Vehiculo(models.Model):
 
     placa = models.CharField(max_length=20, null=False)
-    model = models.CharField(max_length=20, null=False)
+    modelo = models.CharField(max_length=20, null=False)
     color = models.CharField(max_length=20, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     tipo = models.ForeignKey(TipoVehiculo, on_delete=models.CASCADE)
-
+    foto = models.ImageField(upload_to='vehiculos', null=True, blank=True)
     class Meta:
         db_table = "vehiculos"
 
@@ -81,7 +82,7 @@ class DetalleParqueo(models.Model):
     __tablename__ = "detalle_parqueos"
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     parqueo = models.ForeignKey(Parqueo, on_delete=models.CASCADE)
-    vehicle = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
+    vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
     fecha_entrada = models.DateTimeField(auto_now_add=True)
     fecha_salida = models.DateTimeField(null=True)
 

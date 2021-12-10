@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from .models import Paquete, User, TipoVehiculo
+from .models import Paquete, User, TipoVehiculo, Vehiculo
 
 # Create your views here.
 
@@ -41,6 +41,7 @@ def register_view(request):
         telefono = request.POST.get("telefono")
         password = request.POST.get("password")
         password_again = request.POST.get("password_again")
+        foto = request.FILES['foto']
 
         if password != password_again:
             return render(request, "register.html", {"error": "password not match"})
@@ -54,6 +55,7 @@ def register_view(request):
             tipo=tipo,
             ci=ci,
             telefono=telefono,
+            foto=foto
         )
         new_user.save()
         return render(
@@ -72,7 +74,8 @@ def crear_paquete_view(request):
         nombre = request.POST.get("nombre")
         descripcion = request.POST.get("descripcion")
         precio = request.POST.get("precio")
-        paquete = Paquete(nombre=nombre, descripcion=descripcion, precio=precio)
+        foto = request.FILES['foto']
+        paquete = Paquete(nombre=nombre, descripcion=descripcion, precio=precio, foto=foto)
         paquete.save()
         return render(request, "crear_paquete.html", {"message": "Paquete creado"})
 
@@ -86,13 +89,18 @@ def registrar_vehiculo_view(request):
         return render(request, "registrar_vehiculo.html", {"tipos": tipos})
     else:
         placa = request.POST.get("placa")
-        model = request.POST.get("modelo")
+        modelo = request.POST.get("modelo")
         color = request.POST.get("color")
         user = request.user
+        foto = request.FILES['foto']
         tipo_id = request.POST.get("tipo")
         tipo = TipoVehiculo.objects.get(id=tipo_id)
 
-        new_vehiculo = tipo.vehiculo_set.create(placa=placa, model=model, color=color, user=user, tipo=tipo)
+        new_vehiculo = Vehiculo.objects.create(placa=placa, modelo=modelo, color=color, user=user, tipo=tipo, foto=foto)
         new_vehiculo.save()
 
         return render(request, "registrar_vehiculo.html", {"message": "Vehiculo registrado"})
+
+def mis_vehiculos_view(request):
+    vehiculos = request.user.vehiculo_set.all()
+    return render(request, "mis_vehiculos.html", {"vehiculos": vehiculos})

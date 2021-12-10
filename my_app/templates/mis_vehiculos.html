@@ -1,0 +1,19 @@
+{% extends 'template.html' %}
+
+{% block content %}
+    {% for vehiculo in vehiculos %}
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="{{vehiculo.foto.url}}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{vehiculo.tipo.nombre}} - {{ vehiculo.modelo}}</h5>
+            <p class="card-text">
+                Color: {{vehiculo.color}}    
+            </p>
+            <p>
+                Placa: {{vehiculo.placa}} Bs
+        </div>
+    </div>
+
+    {% endfor %}
+
+{% endblock %}
