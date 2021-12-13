@@ -8,6 +8,7 @@ class Paquete(models.Model):
     descripcion = models.TextField()
     precio = models.FloatField()
     foto = models.ImageField(upload_to='paquetes', null=True, blank=True)
+    qr = models.ImageField(upload_to='qrs', null=True, blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -31,10 +32,12 @@ class User(AbstractUser):
 
 
 class CompraPaquete(models.Model):
-    fecha_compra = models.DateTimeField(auto_now_add=True)
     paquete = models.ForeignKey(Paquete, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    fecha_compra = models.DateTimeField(auto_now_add=True)
     tipo_pago = models.CharField(max_length=50)
+    activo = models.BooleanField(default=False)
+    comprobante = models.ImageField(upload_to='comprobantes', null=True, blank=True)
 
     class Meta:
         db_table = "compra_paquetes"

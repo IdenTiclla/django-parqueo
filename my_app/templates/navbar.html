@@ -4,13 +4,14 @@
             <img src="{{user.foto.url}}" width="30" height="30">
             Usuario: {{ user.get_username }} ({{user.tipo}})
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            
-            {% if user.tipo == 'Estudiante' %}
+            <ul class="navbar-nav ml-auto">
+
+                {% if user.tipo == 'Estudiante' %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'registrar_vehiculo' %}">Registra tu Vehiculo</a>
                 </li>
@@ -18,24 +19,24 @@
                     <a class="nav-link" href="{% url 'mis_vehiculos' %}">Mis Vehiculos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Comprar Paquete</a>
+                    <a class="nav-link" href="{% url 'comprar_paquetes'%}">Comprar Paquete</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Mi suscripcion</a>
                 </li>
-            {% elif user.tipo == 'Administrador' %}
+                {% elif user.tipo == 'Administrador' %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'crear_paquete' %}">Crear Paquete</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'paquetes' %}">Paquetes</a>
                 </li>
-            {% endif %}
-            
-            <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">logout</a>
-            </li>
-        </ul>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">logout</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

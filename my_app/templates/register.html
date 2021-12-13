@@ -9,8 +9,17 @@ Register
 <div class="sidenav">
     <div class="login-main-text">
         <h2>Parqueo App<br> Register Page</h2>
-        {% if message %}
-        {{ message }}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <div class="alert {{message.tags}} alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </ul>
         {% endif %}
     </div>
 </div>
@@ -54,12 +63,12 @@ Register
                         <label>Ci</label>
                         <input type="text" class="form-control" placeholder="Ci" name="ci">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Telefono</label>
                         <input type="text" class="form-control" placeholder="Telefono" name="telefono">
                     </div>
-                
+
                     <div class="form-group">
                         <label>Password</label>
                         <input type="password" class="form-control" placeholder="Password" name="password">
@@ -75,7 +84,7 @@ Register
             <div class="col-md-12 m-5">
                 <a href="/">Do you already have an account?</a>
             </div>
-            
+
         </div>
     </div>
 </div>

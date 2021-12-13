@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
+from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .models import Paquete, User, TipoVehiculo, Vehiculo
 
@@ -9,7 +10,8 @@ from .models import Paquete, User, TipoVehiculo, Vehiculo
 
 def index(request):
     if not request.user.is_authenticated:
-        return render(request, "login.html", {"message": "please login"})
+        messages.warning(request, "Inicia sesion para continuar")
+        return render(request, "login.html")
     else:
         return render(request, "index.html")
 
@@ -22,12 +24,14 @@ def login_view(request):
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "login.html", {"error": "username or password error"})
+        messages.error(request, "Usuario o contraseña incorrectos")
+        return render(request, "login.html")
 
 
 def logout_view(request):
     logout(request)
-    return render(request, "login.html", {"message": "logout success"})
+    messages.warning(request, "Inicia sesion para continuar")
+    return render(request, "login.html")
 
 
 def register_view(request):
@@ -44,7 +48,8 @@ def register_view(request):
         foto = request.FILES['foto']
 
         if password != password_again:
-            return render(request, "register.html", {"error": "password not match"})
+            messages.error(request, "Las contraseñas no coinciden")
+            return render(request, "register.html")
 
         new_user = User.objects.create_user(
             username=username,
@@ -57,10 +62,12 @@ def register_view(request):
             telefono=telefono,
             foto=foto
         )
+        if tipo == "Administrador":
+            new_user.is_superuser = True
+            new_user.is_staff = True
         new_user.save()
-        return render(
-            request, "login.html", {"message": "Account created successfully"}
-        )
+        messages.success(request, "Usuario registrado")
+        return render(request, "login.html")
     else:
         return render(request, "register.html")
 
@@ -74,10 +81,13 @@ def crear_paquete_view(request):
         nombre = request.POST.get("nombre")
         descripcion = request.POST.get("descripcion")
         precio = request.POST.get("precio")
+        qr = request.FILES['qr']
         foto = request.FILES['foto']
-        paquete = Paquete(nombre=nombre, descripcion=descripcion, precio=precio, foto=foto)
+
+        paquete = Paquete(nombre=nombre, descripcion=descripcion, precio=precio, qr=qr, foto=foto)
         paquete.save()
-        return render(request, "crear_paquete.html", {"message": "Paquete creado"})
+        messages.success(request, "Paquete creado exitosamente!")
+        return render(request, "crear_paquete.html")
 
 def paquetes_view(request):
     paquetes = Paquete.objects.all()
@@ -98,9 +108,13 @@ def registrar_vehiculo_view(request):
 
         new_vehiculo = Vehiculo.objects.create(placa=placa, modelo=modelo, color=color, user=user, tipo=tipo, foto=foto)
         new_vehiculo.save()
-
-        return render(request, "registrar_vehiculo.html", {"message": "Vehiculo registrado"})
+        messages.success(request, "Vehiculo registrado exitosamente!")
+        return render(request, "registrar_vehiculo.html")
 
 def mis_vehiculos_view(request):
     vehiculos = request.user.vehiculo_set.all()
     return render(request, "mis_vehiculos.html", {"vehiculos": vehiculos})
+
+def comprar_paquetes_view(request):
+    paquetes = Paquete.objects.all()
+    return render(request, "comprar_paquetes.html", {"paquetes": paquetes})
