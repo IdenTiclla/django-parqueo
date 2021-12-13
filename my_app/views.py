@@ -137,3 +137,15 @@ def comprar_view(request, id):
 def mis_suscripciones_view(request):
     compras = CompraPaquete.objects.filter(user=request.user)
     return render(request, "mis_suscripciones.html", {"compras": compras})
+
+def activaciones_view(request):
+    compras = CompraPaquete.objects.filter(activo=False)
+    return render(request, "activaciones.html", {"compras": compras})
+
+def activar_view(request, id):
+    if request.method == "POST":
+        compra_paquete = CompraPaquete.objects.get(id=id)
+        compra_paquete.activo = True
+        compra_paquete.save()
+        messages.success(request, "Activacion realizada exitosamente!")
+        return render(request, "activaciones.html")

@@ -1,0 +1,55 @@
+{% extends 'template.html' %}
+
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert {{message.tags}} alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="container text-light">
+    {% if compras %}
+        {% for compra in compras %}
+        {{compra.user}}
+        {{compra.paquete}}
+        <div class="card text-center">
+            <div class="card-header">
+                {{compra.user.first_name}} {{compra.user.last_name}} ({{compra.user.tipo}}) - {{compra.paquete.nombre}} -
+                {{compra.paquete.precio}} BS
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <img src="{{compra.paquete.foto.url}}" height="100" width="100">
+                </h5>
+                <p class="card-text">
+                    {{compra.paquete.descripcion}}
+                </p>
+                <p>
+                    <a href="{{compra.comprobante.url}}" class="btn btn-primary">Ver comprobante</a>
+                </p>
+            </div>
+            <div class="card-footer text-muted text-uppercase">
+                {% if compra.activo %}
+                Activo
+                {% else %}
+                <form action="/activar/{{compra.id}}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{compra.id}}">
+                    <button type="submit" class="btn btn-success w-100">Activar</button>
+                </form>
+        
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <h1>No hay Activaciones pendientes</h1>
+    {% endif %}
+</div>
+{% endblock %}
