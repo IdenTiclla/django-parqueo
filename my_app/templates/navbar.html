@@ -22,7 +22,7 @@
                     <a class="nav-link" href="{% url 'comprar_paquetes'%}">Comprar Paquete</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Mi suscripcion</a>
+                    <a class="nav-link" href="{% url 'mis_suscripciones'%}">Mis suscripciones</a>
                 </li>
                 {% elif user.tipo == 'Administrador' %}
                 <li class="nav-item">

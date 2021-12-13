@@ -17,6 +17,7 @@ urlpatterns = [
     path("mis_vehiculos", views.mis_vehiculos_view, name="mis_vehiculos"),
     path("comprar_paquetes", views.comprar_paquetes_view, name="comprar_paquetes"),
     path("comprar/<int:id>", views.comprar_view, name="comprar"),
+    path("mis_suscripciones", views.mis_suscripciones_view, name="mis_suscripciones"),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,30 @@
+{% extends 'template.html' %}
+
+{% block content %}
+    <div class="container">
+        {% for compra in compras %}
+            {{compra.user}}
+            {{compra.paquete}}
+            <div class="card text-center">
+                <div class="card-header">
+                    {{compra.user.first_name}} {{compra.user.last_name}} ({{compra.user.tipo}}) - {{compra.paquete.nombre}} - {{compra.paquete.precio}} BS
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <img src="{{compra.paquete.foto.url}}" height="100" width="100">
+                    </h5>
+                    <p class="card-text">
+                        {{compra.paquete.descripcion}}
+                    </p>
+                </div>
+                <div class="card-footer text-muted text-uppercase">
+                    {% if compra.activo %}
+                        Activo
+                    {% else %}
+                        Inactivo
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

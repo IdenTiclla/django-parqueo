@@ -133,3 +133,7 @@ def comprar_view(request, id):
         compra_paquete.save()
         messages.success(request, "Compra realizada exitosamente!")
         return render(request, "comprar_paquetes.html")
+
+def mis_suscripciones_view(request):
+    compras = CompraPaquete.objects.filter(user=request.user)
+    return render(request, "mis_suscripciones.html", {"compras": compras})
