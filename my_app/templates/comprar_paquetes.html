@@ -2,6 +2,18 @@
 
 
 {% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert {{message.tags}} alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
 <div class="row">
     {% for paquete in paquetes %}
     <div class="card m-5" style="width: 18rem;">
@@ -15,7 +27,7 @@
                 Precio: {{paquete.precio}} Bs
             </p>
         </div>
-        <a class="btn btn-success" href="/" role="button">Comprar</a>
+        <a class="btn btn-success" href="/comprar/{{paquete.id}}" role="button">Comprar</a>
     </div>
     {% endfor %}
 </div>

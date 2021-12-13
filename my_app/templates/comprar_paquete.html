@@ -1,0 +1,32 @@
+{% extends 'template.html' %}
+
+{% block content %}
+<div class="container text-light">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Comprando: {{paquete.nombre}}</h1>
+            <img src="{{paquete.qr.url}}" width="300" height="300">
+        </div>
+        <div class="col-md-4">
+            <h1>Datos del paquete</h1>
+            Descripcion breve:
+            <p>{{paquete.descripcion}}</p>
+            Precio del paquete:
+            <p>{{paquete.precio}}</p>
+            <form action="/comprar/{{paquete.id}}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{paquete.id}}">
+                <div class="mb-3">
+                    <label for="comprobante" class="form-label">Comprobante del pago</label>
+                    <input class="form-control" type="file" id="comprobante" name="comprobante" required>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">Comprar paquete</button>
+        </div>
+        <div class="col-md-2">
+            <img src="{{paquete.foto.url}}" width="250" height="250">
+        </div>
+    </div>
+</div>
+    
+{% endblock %}

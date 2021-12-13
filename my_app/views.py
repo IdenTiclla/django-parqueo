@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from .models import Paquete, User, TipoVehiculo, Vehiculo
+from .models import Paquete, User, TipoVehiculo, Vehiculo, CompraPaquete
 
 # Create your views here.
 
@@ -118,3 +118,18 @@ def mis_vehiculos_view(request):
 def comprar_paquetes_view(request):
     paquetes = Paquete.objects.all()
     return render(request, "comprar_paquetes.html", {"paquetes": paquetes})
+
+def comprar_view(request, id):
+    paquete = Paquete.objects.get(id=id)
+    if request.method == "GET":
+        return render(request, "comprar_paquete.html", {"paquete": paquete})
+    elif request.method == "POST":
+        user = request.user
+        compra_paquete = CompraPaquete(user=user, paquete=paquete)
+        compra_paquete.tipo_pago = "Deposito"
+        compra_paquete.activo = False
+        compra_paquete.comprobante = request.FILES['comprobante']
+
+        compra_paquete.save()
+        messages.success(request, "Compra realizada exitosamente!")
+        return render(request, "comprar_paquetes.html")
