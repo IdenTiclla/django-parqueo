@@ -22,6 +22,7 @@ urlpatterns = [
     path("activar/<int:id>", views.activar_view, name="activar"),
     path("crear_parqueo", views.crear_parqueo_view, name="crear_parqueo"),
     path("mis_parqueos", views.mis_parqueos_view, name="mis_parqueos"),
+    path("parqueo", views.parqueo_view, name="parqueo"),
 ]
 
 if settings.DEBUG:
