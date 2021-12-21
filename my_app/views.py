@@ -162,3 +162,7 @@ def crear_parqueo_view(request):
         
         messages.success(request, "Parqueo creado exitosamente!")
         return render(request, "crear_parqueo.html")
+
+def mis_parqueos_view(request):
+    parqueos = Parqueo.objects.all()
+    return render(request, "mis_parqueos.html", {"parqueos": parqueos})

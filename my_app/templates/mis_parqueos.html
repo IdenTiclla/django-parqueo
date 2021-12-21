@@ -1,0 +1,41 @@
+{% extends 'template.html' %}
+
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert {{message.tags}} alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="container p-5">
+    <div class="col">
+        <div class="row">
+            {% for parqueo in parqueos %}
+            <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                <div class="card-header">
+                    {% if parqueo.activo %}
+                    Parqueo Disponible
+                    {% else %}
+                    Parqueo Ocupado
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{parqueo.nombre}}</h5>
+                    <p class="card-text">
+                        {{parqueo.descripcion}}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
