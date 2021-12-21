@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from .models import Paquete, User, TipoVehiculo, Vehiculo, CompraPaquete
+from .models import Paquete, User, TipoVehiculo, Vehiculo, CompraPaquete, Parqueo
 
 # Create your views here.
 
@@ -149,3 +149,16 @@ def activar_view(request, id):
         compra_paquete.save()
         messages.success(request, "Activacion realizada exitosamente!")
         return render(request, "activaciones.html")
+
+def crear_parqueo_view(request):
+    if request.method == "GET":
+        return render(request, "crear_parqueo.html")
+    elif request.method == "POST":
+        nombre = request.POST.get("nombre")
+        descripcion = request.POST.get("descripcion")
+        
+        new_parqueo = Parqueo(nombre=nombre, descripcion=descripcion)
+        new_parqueo.save()
+        
+        messages.success(request, "Parqueo creado exitosamente!")
+        return render(request, "crear_parqueo.html")

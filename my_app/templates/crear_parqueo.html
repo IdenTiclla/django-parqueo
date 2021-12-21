@@ -1,0 +1,33 @@
+{% extends 'template.html' %}
+
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert {{message.tags}} alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<h1 class="text-light">Crear Parqueo</h1>
+<div class="container text-light">
+    <form action="{% url 'crear_parqueo' %}" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre del parqueo</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripcion</label>
+            <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+        </div>
+        
+        <button type="submit" class="btn btn-success w-100">Crear Parqueo</button>
+    </form>
+</div>
+{% endblock %}

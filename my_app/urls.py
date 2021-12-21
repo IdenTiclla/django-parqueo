@@ -20,6 +20,7 @@ urlpatterns = [
     path("mis_suscripciones", views.mis_suscripciones_view, name="mis_suscripciones"),
     path("activaciones", views.activaciones_view, name="activaciones"),
     path("activar/<int:id>", views.activar_view, name="activar"),
+    path("crear_parqueo", views.crear_parqueo_view, name="crear_parqueo"),
 ]
 
 if settings.DEBUG:
