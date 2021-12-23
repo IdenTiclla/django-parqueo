@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from datetime import datetime
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from .models import Paquete, User, TipoVehiculo, Vehiculo, CompraPaquete, Parqueo
+from .models import DetalleParqueo, Paquete, User, TipoVehiculo, Vehiculo, CompraPaquete, Parqueo
 
 # Create your views here.
 
@@ -91,6 +92,9 @@ def crear_paquete_view(request):
 
 def paquetes_view(request):
     paquetes = Paquete.objects.all()
+    if  not paquetes:
+        messages.warning(request, "Registra almenos un paquete para continuar")
+        return redirect("crear_paquete")
     return render(request, "paquetes.html", {"paquetes": paquetes})
     
 def registrar_vehiculo_view(request):
@@ -113,6 +117,9 @@ def registrar_vehiculo_view(request):
 
 def mis_vehiculos_view(request):
     vehiculos = request.user.vehiculo_set.all()
+    if not vehiculos:
+        messages.warning(request, "No tienes vehiculos registrados Registra almenos un vehiculo para continuar")
+        return redirect("registrar_vehiculo")
     return render(request, "mis_vehiculos.html", {"vehiculos": vehiculos})
 
 def comprar_paquetes_view(request):
@@ -136,6 +143,9 @@ def comprar_view(request, id):
 
 def mis_suscripciones_view(request):
     compras = CompraPaquete.objects.filter(user=request.user)
+    if not compras:
+        messages.warning(request, "No tienes suscripciones registradas compra almenos una suscripcion para continuar")
+        return redirect("comprar_paquetes")
     return render(request, "mis_suscripciones.html", {"compras": compras})
 
 def activaciones_view(request):
@@ -146,7 +156,10 @@ def activar_view(request, id):
     if request.method == "POST":
         compra_paquete = CompraPaquete.objects.get(id=id)
         compra_paquete.activo = True
+        compra_paquete.user.suscrito = True
+        compra_paquete.user.save()
         compra_paquete.save()
+        
         messages.success(request, "Activacion realizada exitosamente!")
         return render(request, "activaciones.html")
 
@@ -165,8 +178,58 @@ def crear_parqueo_view(request):
 
 def mis_parqueos_view(request):
     parqueos = Parqueo.objects.all()
+    if  not parqueos:
+        messages.warning(request, "Registra almenos un parqueo para continuar")
+        return redirect("crear_parqueo")
     return render(request, "mis_parqueos.html", {"parqueos": parqueos})
 
 def parqueo_view(request):
+    user = request.user
+    # si no tenemos suscripciones, no podemos ver los parqueos
+    if not user.suscrito:
+        messages.error(request, "No tienes suscripcion")
+        return redirect("comprar_paquetes")
+    # si el usuario no tiene vehiculos registrados
+    vehiculos = user.vehiculo_set.all()
+    if not vehiculos:
+        messages.warning(request, "Registra almenos un vehiculo para continuar")
+        return redirect("registrar_vehiculo")
     parqueos = Parqueo.objects.all()
     return render(request, "parqueo.html", {"parqueos": parqueos})
+
+def parquear_view(request, id):
+    parqueo = Parqueo.objects.get(id=id)
+    user = request.user
+    vehiculos = user.vehiculo_set.all()
+    if request.method == "GET":
+        return render(request, "parquear.html", {"parqueo": parqueo, "vehiculos": vehiculos})
+    elif request.method == "POST":
+        id_vehiculo = request.POST.get("vehiculo_id")
+        vehiculo = Vehiculo.objects.get(id=id_vehiculo)
+        
+        detalle_parqueo = DetalleParqueo(user=user, parqueo=parqueo, vehiculo=vehiculo)
+        detalle_parqueo.save()
+        parqueo.activo = False
+        parqueo.save()
+        user.parqueado = True
+        user.save()
+        messages.success(request, "Parqueado exitosamente!")
+        
+        return render(request, "parqueo.html")
+
+def marcar_salidas_view(request):
+    detalle_parqueos = DetalleParqueo.objects.filter(fecha_salida=None)
+    return render(request, "marcar_salidas.html", {"detalle_parqueos": detalle_parqueos})
+
+
+def marcar_salida_view(request, id):
+    if request.method == "GET":
+        detalle_parqueo = DetalleParqueo.objects.get(id=id)
+        detalle_parqueo.fecha_salida = datetime.now()
+        detalle_parqueo.parqueo.activo = True
+        detalle_parqueo.parqueo.save()
+        detalle_parqueo.user.parqueado = False
+        detalle_parqueo.user.save()
+        detalle_parqueo.save()
+        messages.success(request, "Salida registrada exitosamente!")
+        return redirect("marcar_salidas")

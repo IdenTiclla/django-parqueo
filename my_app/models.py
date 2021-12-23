@@ -23,7 +23,8 @@ class User(AbstractUser):
     telefono = models.IntegerField(null=True)
     tipo = models.CharField(max_length=20, null=False, blank=False)
     foto = models.ImageField(upload_to='users', null=True, blank=True)
-
+    suscrito = models.BooleanField(default=False)
+    parqueado = models.BooleanField(default=False)
     class Meta:
         db_table = "users"
 
@@ -65,7 +66,7 @@ class Vehiculo(models.Model):
         db_table = "vehiculos"
 
     def __str__(self):
-        return f"<Vehiculo: {self.placa} - {self.year}>"
+        return f"<Vehiculo: {self.placa} - {self.modelo}>"
 
 
 class Parqueo(models.Model):
@@ -86,11 +87,11 @@ class DetalleParqueo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     parqueo = models.ForeignKey(Parqueo, on_delete=models.CASCADE)
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
-    fecha_entrada = models.DateTimeField(auto_now_add=True)
+    fecha_entrada = models.DateTimeField(default=datetime.now())
     fecha_salida = models.DateTimeField(null=True)
 
     class Meta:
         db_table = "detalle_parqueos"
 
     def __str__(self):
-        return f"<DetalleParqueo: {self.user} - {self.parqueo} - {self.vehicle}>"
+        return f"<DetalleParqueo: {self.user} - {self.parqueo} - {self.vehiculo}>"

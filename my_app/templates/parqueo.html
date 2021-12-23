@@ -14,40 +14,42 @@
 </ul>
 {% endif %}
 <div class="container p-5">
-    <div class="col">
-        <div class="row">
-            {% for parqueo in parqueos %}
-            
-
-            
-
-            {% if parqueo.activo %}
-            <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
-                <div class="card-header">Parqueo Disponible</div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ parqueo.nombre }}</h5>
-                    <p class="card-text">
-                        {{ parqueo.descripcion }}
-                    </p>
-                    <a class="btn btn-primary w-100" href="/parquear/{{parqueo.id}}" role="button">Parquear</a>
+    {% if user.parqueado %}
+        <h1>Ya estas parqueado!</h1>
+    {% else %}
+        <div class="col">
+            <div class="row">
+                {% for parqueo in parqueos %}
+        
+                {% if parqueo.activo %}
+                <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Parqueo Disponible</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ parqueo.nombre }}</h5>
+                        <p class="card-text">
+                            {{ parqueo.descripcion }}
+                        </p>
+                        <a class="btn btn-primary w-100" href="/parquear/{{parqueo.id}}" role="button">Parquear</a>
+                    </div>
                 </div>
-            </div>
-            {% else %}
-
-            <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
-                <div class="card-header">Parqueo Ocupado</div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ parqueo.nombre }}</h5>
-                    <p class="card-text">
-                        {{ parqueo.descripcion }}
-                    </p>
+                {% else %}
+        
+                <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Parqueo Ocupado</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ parqueo.nombre }}</h5>
+                        <p class="card-text">
+                            {{ parqueo.descripcion }}
+                        </p>
+                    </div>
                 </div>
+                {% endif %}
+        
+                {% endfor %}
             </div>
-            {% endif %}
-
-            {% endfor %}
         </div>
-    </div>
+    {% endif %}
+    
 </div>
 
 

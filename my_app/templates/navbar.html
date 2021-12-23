@@ -45,6 +45,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'mis_parqueos' %}">Mis Parqueos</a>
                 </li>
+
+                {% elif user.tipo == 'Guardia' %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'marcar_salidas' %}">Marcar Salidas</a>
+                </li>
                 {% endif %}
 
                 <li class="nav-item">

@@ -1,0 +1,48 @@
+{% extends 'template.html' %}
+
+{% block content %}
+<div class="container text-light">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Parqueando: {{parqueo.nombre}}</h1>
+        </div>
+        <div class="col-md-4">
+            <h1>Datos del Parqueo</h1>
+            <h5>Descripcion breve</h5>
+            <p>{{parqueo.descripcion}}</p>
+            <form action="/parquear/{{parqueo.id}}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{paquete.id}}">
+                <div class="mb-3">
+                    
+                    <div class="mb-3">
+                        <label for="disabledTextInput" class="form-label">Nombre</label>
+                        <input type="text" id="disabledTextInput" disabled class="form-control" placeholder="{{user.first_name}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="disabledTextInput" class="form-label">Apellido</label>
+                        <input type="text" id="disabledTextInput" disabled class="form-control" placeholder="{{user.last_name}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="disabledTextInput" class="form-label">Carnet de Identidad</label>
+                        <input type="text" id="disabledTextInput" disabled class="form-control" placeholder="{{user.ci}}">
+                    </div>
+                    <label for="comprobante" class="form-label">
+                        Selecciona tu vehiculo
+                    </label>
+                    <select class="form-select" aria-label="Default select example" name="vehiculo_id" required>
+                        {% for vehiculo in vehiculos %}
+                        <option value="{{ vehiculo.id }}">
+                            {{ vehiculo.placa }} ({{vehiculo.tipo.nombre}})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">Confirmar Parqueo</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
