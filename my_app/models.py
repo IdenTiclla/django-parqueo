@@ -94,4 +94,4 @@ class DetalleParqueo(models.Model):
         db_table = "detalle_parqueos"
 
     def __str__(self):
-        return f"<DetalleParqueo: {self.user} - {self.parqueo} - {self.vehiculo}>"
+        return f"<DetalleParqueo: {self.user} - {self.parqueo} - {self.vehiculo} - {self.fecha_entrada} - {self.fecha_salida}>"

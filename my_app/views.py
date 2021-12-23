@@ -233,3 +233,19 @@ def marcar_salida_view(request, id):
         detalle_parqueo.save()
         messages.success(request, "Salida registrada exitosamente!")
         return redirect("marcar_salidas")
+
+def ver_salidas_view(request):
+    if request.method == "GET":
+        return render(request, "ver_salidas.html")
+    elif request.method == "POST":
+        fecha_salida = request.POST.get("fecha_salida")
+        fecha_salida = datetime.strptime(fecha_salida, "%Y-%m-%d")
+        
+        dia = fecha_salida.day
+        year = fecha_salida.year
+        mes = fecha_salida.month
+
+        detalle_parqueos = DetalleParqueo.objects.filter(fecha_salida__day=f'{dia}', fecha_salida__year=f'{year}', fecha_salida__month=f'{mes}')
+        return render(request, "ver_salidas.html", {"detalle_parqueos": detalle_parqueos})
+        return redirect("ver_salidas")
+
