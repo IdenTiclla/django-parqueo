@@ -32,6 +32,8 @@ urlpatterns = [
     path("marcar_salidas", views.marcar_salidas_view, name="marcar_salidas"),
     path("marcar_salida/<int:id>", views.marcar_salida_view, name="marcar_salida"),
     path("ver_salidas", views.ver_salidas_view, name="ver_salidas"),
+    # urls para contabilidad
+    path("reportes_suscripciones_compradas", views.reportes_suscripciones_compradas_view, name="reportes_suscripciones_compradas"),
 ]
 
 if settings.DEBUG:

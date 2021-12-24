@@ -1,4 +1,5 @@
 from datetime import datetime
+from functools import total_ordering
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
@@ -253,3 +254,18 @@ def ver_salidas_view(request):
         return render(request, "ver_salidas.html", {"detalle_parqueos": detalle_parqueos})
         return redirect("ver_salidas")
 
+
+
+def reportes_suscripciones_compradas_view(request):
+    if request.method == "GET":
+        return render(request, "reportes_suscripciones_compradas.html")
+    elif request.method == "POST":
+        fecha_inicio = request.POST.get("fecha_inicio")
+        fecha_fin = request.POST.get("fecha_fin")
+        fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d")
+        fecha_fin = datetime.strptime(fecha_fin, "%Y-%m-%d")
+        compras = CompraPaquete.objects.filter(fecha_compra__range=(fecha_inicio, fecha_fin))
+        total = 0
+        for compra in compras:
+            total += compra.paquete.precio
+        return render(request, "reportes_suscripciones_compradas.html", {"compras": compras, "total": total})

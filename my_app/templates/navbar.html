@@ -54,6 +54,11 @@
                 <li>
                     <a class="nav-link" href="{% url 'ver_salidas' %}">Ver Salidas</a>
                 </li>
+
+                {% elif user.tipo == 'Contabilidad' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'reportes_suscripciones_compradas' %}">Reporte de suscripciones compradas</a>
+                </li>
                 {% endif %}
 
                 <li class="nav-item">
