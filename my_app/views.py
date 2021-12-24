@@ -123,9 +123,13 @@ def mis_vehiculos_view(request):
     return render(request, "mis_vehiculos.html", {"vehiculos": vehiculos})
 
 def comprar_paquetes_view(request):
-    paquetes = Paquete.objects.all()
-    return render(request, "comprar_paquetes.html", {"paquetes": paquetes})
-
+    user = request.user
+    if not user.suscrito:
+        paquetes = Paquete.objects.all()
+        return render(request, "comprar_paquetes.html", {"paquetes": paquetes})
+    else:
+        messages.warning(request, "Ya estas suscrito")
+        return redirect("mis_suscripciones")
 def comprar_view(request, id):
     paquete = Paquete.objects.get(id=id)
     if request.method == "GET":
