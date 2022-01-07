@@ -199,6 +199,14 @@ def parqueo_view(request):
     if not vehiculos:
         messages.warning(request, "Registra almenos un vehiculo para continuar")
         return redirect("registrar_vehiculo")
+    
+    if user.parqueado:
+        detalle_parqueo = DetalleParqueo.objects.filter(user=user, fecha_salida=None).first()
+        enlace = f"https://django-parqueo.herokuapp.com/marcar_salida/{detalle_parqueo.id}"
+        
+        return render(request, "parqueo.html", {"detalle_parqueo": detalle_parqueo, "enlace": enlace})
+
+
     parqueos = Parqueo.objects.all()
     return render(request, "parqueo.html", {"parqueos": parqueos})
 

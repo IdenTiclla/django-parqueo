@@ -1,5 +1,7 @@
 {% extends 'template.html' %}
 
+{% load qr_code %}
+
 {% block content %}
 {% if messages %}
 <ul class="messages">
@@ -15,7 +17,16 @@
 {% endif %}
 <div class="container p-5">
     {% if user.parqueado %}
-        <h1>Ya estas parqueado!</h1>
+        <div class="div"style="background-color:white">
+            <h1>Ya estas parqueadoo!</h1>
+            <h1>Detalle de parqueo</h1>
+            <h1>Conductor: {{detalle_parqueo.user.first_name}} {{detalle_parqueo.user.last_name}}</h1>
+            <h1>Vehiculo: {{detalle_parqueo.vehiculo.placa}} - {{detalle_parqueo.vehiculo.modelo}} - {{detalle_parqueo.vehiculo.color}} </h1>
+            <h1>{{detalle_parqueo.parqueo.nombre}}</h1>
+            <h1>{{detalle_parqueo.parqueo.descripcion}}</h1>
+            {% qr_from_data enlace size="H" %}
+        </div>
+        
     {% else %}
         <div class="col">
             <div class="row">
