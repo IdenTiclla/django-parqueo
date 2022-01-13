@@ -13,7 +13,7 @@ body {
 
 .sidenav {
     height: 100%;
-    background-color: #000;
+    background-color: rgb(184, 25, 25);
     overflow-x: hidden;
     padding-top: 20px;
 }
@@ -82,9 +82,7 @@ body {
 
 /*UI GRADIENT*/
 body{
-    background: #141e30; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #141e30, #243b55); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #141e30, #243b55); /*
+    background: white; /* fallback for old browsers */   
 }
 /* cHECKBOXES AND RADIOS */
 
