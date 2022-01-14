@@ -39,12 +39,13 @@
     <script src="{% static 'js/main.js'%}"></script>
 
     <!--favicon-->
-    <link rel="icon" href="{% static 'files/favicon.ico' %}" type="image/x-icon" />
+    <link rel="icon" href="{% static 'files/favicon.png' %}" type="image/x-icon" />
 
     <title>{% block title %} {% endblock %}</title>
 </head>
 
-<body class="container">
+<body style="background-image: url('../static/files/utepsa-fondo.png'); background-repeat: no-repeat; background-size: 100%;">
+    
     {% include 'navbar.html' %}
 
     {% block content %}

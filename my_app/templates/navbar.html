@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
+<nav class="navbar navbar-light navbar-expand-lg" style="background-color: red;">
+    <div class="container-fluid fs-4">
         <a class="navbar-brand" href="{% url 'perfil' %}">
             <img src="{{user.foto.url}}" width="30" height="30">
             Usuario: {{ user.get_username }} ({{user.tipo}})
@@ -10,7 +10,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-
                 {% if user.tipo == 'Estudiante' %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'registrar_vehiculo' %}">Registra tu Vehiculo</a>

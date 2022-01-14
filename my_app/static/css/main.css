@@ -13,9 +13,10 @@ body {
 
 .sidenav {
     height: 100%;
-    background-color: rgb(184, 25, 25);
+    background-color: #cc102c;
     overflow-x: hidden;
     padding-top: 20px;
+    text-align: center;
 }
 
 
