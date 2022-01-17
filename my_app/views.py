@@ -228,7 +228,8 @@ def parquear_view(request, id):
         user.save()
         messages.success(request, "Parqueado exitosamente!")
         
-        return render(request, "parqueo.html")
+        # return render(request, "parqueo.html")
+        return redirect("parqueo")
 
 def marcar_salidas_view(request):
     detalle_parqueos = DetalleParqueo.objects.filter(fecha_salida=None)
