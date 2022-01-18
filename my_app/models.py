@@ -1,7 +1,20 @@
+from calendar import month
 from django import db
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from datetime import datetime
+from datetime import timedelta, date
+
+
+import calendar
+
+def add_months(sourcedate, months):
+    month = sourcedate.month - 1 + months
+    year = sourcedate.year + month // 12
+    month = month % 12 + 1
+    day = min(sourcedate.day, calendar.monthrange(year,month)[1])
+    return date(year, month, day)
+
 
 class Paquete(models.Model):
     nombre = models.CharField(max_length=50)
@@ -43,6 +56,33 @@ class CompraPaquete(models.Model):
     class Meta:
         db_table = "compra_paquetes"
 
+    def fecha_literal(self):
+        meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        return f"{self.fecha_compra.day} de {meses[self.fecha_compra.month - 1]} de {self.fecha_compra.year}"
+
+    def dias_restantes(self):
+        if self.activo:
+            """
+            dia = self.fecha_compra.day
+            mes = self.fecha_compra.month
+            year = self.fecha_compra.year
+            fecha_actual = datetime.now()
+            fecha_inicio = datetime(year, mes, dia) + timedelta(month=1)
+            result = fecha_inicio - datetime.now()
+            return result.days
+            """
+            dia = self.fecha_compra.day
+            mes = self.fecha_compra.month
+            year = self.fecha_compra.year
+
+            fecha_actual = date.today()
+            fecha_inicio = datetime(year, mes, dia)
+            fecha_fin = add_months(fecha_inicio, 1)
+            
+            result = fecha_fin - fecha_actual
+            return result.days
+        else:
+            return timedelta(days=0)
 
 class TipoVehiculo(models.Model):
     nombre = models.CharField(max_length=30)

@@ -14,11 +14,9 @@
 </ul>
 {% endif %}
 
-
+<br>
     <div class="container">
         {% for compra in compras %}
-            {{compra.user}}
-            {{compra.paquete}}
             <div class="card text-center">
                 <div class="card-header">
                     {{compra.user.first_name}} {{compra.user.last_name}} ({{compra.user.tipo}}) - {{compra.paquete.nombre}} - {{compra.paquete.precio}} BS
@@ -29,6 +27,10 @@
                     </h5>
                     <p class="card-text">
                         {{compra.paquete.descripcion}}
+                        <br>
+                        Fecha de compra: {{compra.fecha_literal}}
+                        <br>
+                        Dias restantes: {{compra.dias_restantes}}
                     </p>
                 </div>
                 <div class="card-footer text-muted text-uppercase">
