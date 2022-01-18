@@ -147,7 +147,7 @@ def comprar_view(request, id):
         return render(request, "comprar_paquetes.html")
 
 def mis_suscripciones_view(request):
-    compras = CompraPaquete.objects.filter(user=request.user)
+    compras = CompraPaquete.objects.filter(user=request.user, activo=True)
     if not compras:
         messages.warning(request, "No tienes suscripciones registradas compra almenos una suscripcion para continuar")
         return redirect("comprar_paquetes")
@@ -156,6 +156,22 @@ def mis_suscripciones_view(request):
 def activaciones_view(request):
     compras = CompraPaquete.objects.filter(activo=False)
     return render(request, "activaciones.html", {"compras": compras})
+
+def suscripciones_vencidas_view(request):
+    compras = CompraPaquete.objects.filter(activo=True)
+    lst = [compra for compra in compras if compra.dias_restantes() < 5]
+    return render(request, "suscripciones_vencidas.html", {"compras": lst})
+
+def desactivar_view(request, id):
+    if request.method == "POST":
+        compra_paquete = CompraPaquete.objects.get(id=id)
+        compra_paquete.activo = False
+        compra_paquete.user.suscrito = False
+        compra_paquete.user.save()
+        compra_paquete.save()
+        
+        messages.success(request, "Desactivacion realizada exitosamente!")
+        return redirect("suscripciones_vencidas")
 
 def activar_view(request, id):
     if request.method == "POST":
@@ -166,7 +182,8 @@ def activar_view(request, id):
         compra_paquete.save()
         
         messages.success(request, "Activacion realizada exitosamente!")
-        return render(request, "activaciones.html")
+        return redirect("activaciones")
+        
 
 def crear_parqueo_view(request):
     if request.method == "GET":

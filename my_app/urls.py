@@ -28,6 +28,8 @@ urlpatterns = [
     path("activar/<int:id>", views.activar_view, name="activar"),
     path("crear_parqueo", views.crear_parqueo_view, name="crear_parqueo"),
     path("mis_parqueos", views.mis_parqueos_view, name="mis_parqueos"),
+    path("suscripciones_vencidas", views.suscripciones_vencidas_view, name="suscripciones_vencidas"),
+    path("desactivar/<int:id>", views.desactivar_view, name="desactivar"),
     # urls para guardias
     path("marcar_salidas", views.marcar_salidas_view, name="marcar_salidas"),
     path("marcar_salida/<int:id>", views.marcar_salida_view, name="marcar_salida"),

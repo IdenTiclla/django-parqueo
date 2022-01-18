@@ -28,6 +28,9 @@
                 </li>
                 {% elif user.tipo == 'Administrador' %}
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'suscripciones_vencidas' %}">Control Suscripciones</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'crear_paquete' %}">Crear Paquete</a>
                 </li>
                 <li class="nav-item">
