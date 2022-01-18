@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block title %}
 Register
@@ -7,6 +7,12 @@ Register
 
 {% block content %}
 <div class="sidenav">
+    <div>
+        <img src="{% static 'files/utepsa-logo.png' %}" alt="logo" class="logo">
+    </div>
+    <div>
+        <img src="{% static 'files/parqueo_logo.png' %}" alt="logo" class="logo" width="300" height="300" style="background-color: transparent; border: none;">
+    </div>
     <div class="login-main-text">
         <h2>Parqueo App<br> Pagina de Registro</h2>
         {% if messages %}
