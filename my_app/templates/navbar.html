@@ -1,5 +1,9 @@
-<nav class="navbar navbar-light navbar-expand-lg" style="background-color: #919296;">
+{% load static %}
+<nav class="navbar navbar-light navbar-expand-lg" style="background-color: #cc102c;">
     <div class="container-fluid fs-4">
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'files/utepsa-logo.png'%}" width="200" height="70">
+        </a>
         <a class="navbar-brand" href="{% url 'perfil' %}">
             <img src="{{user.foto.url}}" width="30" height="30">
             Usuario: {{ user.get_username }} ({{user.tipo}})
@@ -64,8 +68,11 @@
                 {% endif %}
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Cerrar sesion</a>
+                    <a class="navbar-brand" href="{% url 'logout' %}">
+                        <img src="{% static 'files/logout_btn.jpg'%}" width="50" height="50">
+                    </a>
                 </li>
+                
             </ul>
         </div>
     </div>

@@ -14,7 +14,7 @@
 </ul>
 {% endif %}
 
-<h1 class="text-light">Registrar Vehiculo</h1>
+<h1>Registrar Vehiculo</h1>
 <div class="container text-light">
     <form action="{% url 'registrar_vehiculo' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -45,7 +45,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-success w-100">Registra Vehiculo</button>
+        <button type="submit" class="btn btn-black btn-lg btn-block">Registrar Vehiculo</button>
     </form>
 </div>
 {% endblock %}

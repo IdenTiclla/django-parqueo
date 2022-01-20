@@ -160,6 +160,7 @@ def activaciones_view(request):
 def suscripciones_vencidas_view(request):
     compras = CompraPaquete.objects.filter(activo=True)
     lst = [compra for compra in compras if compra.dias_restantes() < 5]
+    
     return render(request, "suscripciones_vencidas.html", {"compras": lst})
 
 def desactivar_view(request, id):

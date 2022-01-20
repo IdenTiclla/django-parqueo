@@ -16,7 +16,8 @@
 <div class="container p-5">
     <div class="col">
         <div class="row">
-            {% for detalle_parqueo in detalle_parqueos %}
+            {% if detalle_parqueos %}
+                {% for detalle_parqueo in detalle_parqueos %}
                 <div class="card text-center">
                     <div class="card-header">
                         Detalle Parqueo {{ detalle_parqueo.parqueo.nombre }}
@@ -25,7 +26,7 @@
                         <h5 class="card-title">Nombre: {{ detalle_parqueo.user.first_name }} {{ detalle_parqueo.user.last_name }}</h5>
                         <h4>Vehiculo</h4>
                         <p class="card-text">
-                            {{  detalle_parqueo.vehiculo.placa }}
+                            {{ detalle_parqueo.vehiculo.placa }}
                             {{ detalle_parqueo.vehiculo.modelo }}
                             {{ detalle_parqueo.vehiculo.color }}
                         </p>
@@ -36,7 +37,10 @@
                         Fecha Entrada: {{ detalle_parqueo.fecha_entrada }}
                     </div>
                 </div>
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                <h1>No tienes movilidades parqueadas!</h1>
+            {% endif %}
         </div>
     </div>
 </div>

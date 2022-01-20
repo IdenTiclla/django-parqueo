@@ -1,5 +1,9 @@
 {% extends 'template.html' %}
 
+{% block title %}
+    Control Suscripciones
+{% endblock %}
+
 {% block content %}
 {% if messages %}
 <ul class="messages">
@@ -16,46 +20,46 @@
 
 <br>
 <div class="container">
-    {% for compra in compras %}
-    <div class="card text-center">
-        <div class="card-header">
-            {{compra.user.first_name}} {{compra.user.last_name}} {{compra.user.telefono}} ({{compra.user.tipo}}) - {{compra.paquete.nombre}} -
-            {{compra.paquete.precio}} BS
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                <img src="{{compra.paquete.foto.url}}" height="100" width="100">
-            </h5>
-            <p class="card-text">
-                {{compra.paquete.descripcion}}
-                <br>
-                Fecha de compra: {{compra.fecha_literal}}
-                <br>
-                Dias restantes: 
-                {% if compra.dias_restantes <= 0 %}
-                    Suscripcion Vencida
-                {% else %}
-                    {{compra.dias_restantes}}
-                {% endif %}
-            </p>
-        </div>
-
-        {% if not compra.dias_restantes <= 0 %}
-            <div class="card-footer text-muted text-uppercase">
-                Activo
+    {% if compras %}
+        {% for compra in compras %}
+        <div class="card text-center">
+            <div class="card-header">
+                {{compra.user.first_name}} {{compra.user.last_name}} {{compra.user.telefono}} ({{compra.user.tipo}}) -
+                {{compra.paquete.nombre}} -
+                {{compra.paquete.precio}} BS
             </div>
-        {% endif %}
-
+            <div class="card-body">
+                <h5 class="card-title">
+                    <img src="{{compra.paquete.foto.url}}" height="100" width="100">
+                </h5>
+                <p class="card-text">
+                    {{compra.paquete.descripcion}}
+                    <br>
+                    Fecha de compra: {{compra.fecha_literal}}
+                    <br>
+                    Dias restantes:
+                    {% if compra.dias_restantes <= 0 %} Suscripcion Vencida {% else %} {{compra.dias_restantes}} {% endif %}
+                        </p>
+            </div>
         
-        {% if compra.dias_restantes <= 0 %}
+            {% if not compra.dias_restantes <= 0 %} <div class="card-footer text-muted text-uppercase">
+                Activo
+        </div>
+        {% endif %}
+        
+        
+        {% if compra.dias_restantes <= 0 %} 
             <form action="/desactivar/{{compra.id}}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="id" value="{{compra.id}}">
                 <button type="submit" class="btn btn-danger w-100">Finalizar Suscripcion</button>
             </form>
         {% endif %}
-    </div>
-    <br>
-    {% endfor %}
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+        <h1>No hay suscripciones prontas a vencer</h1>
+    {% endif %}
 </div>
 {% endblock %}

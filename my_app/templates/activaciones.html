@@ -1,5 +1,9 @@
 {% extends 'template.html' %}
 
+{% block title %}
+    Activaciones
+{% endblock %}
+
 {% block content %}
 {% if messages %}
 <ul class="messages">
@@ -31,7 +35,7 @@
                     {{compra.paquete.descripcion}}
                 </p>
                 <p>
-                    <a href="{{compra.comprobante.url}}" class="btn btn-primary">Ver comprobante</a>
+                    <a href="{{compra.comprobante.url}}" class="btn btn-danger">Ver comprobante</a>
                 </p>
             </div>
             <div class="card-footer text-muted text-uppercase">
@@ -41,7 +45,7 @@
                 <form action="/activar/{{compra.id}}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="id" value="{{compra.id}}">
-                    <button type="submit" class="btn btn-success w-100">Activar</button>
+                    <button type="submit" class="btn btn-black btn-lg btn-block">Activar</button>
                 </form>
         
                 {% endif %}

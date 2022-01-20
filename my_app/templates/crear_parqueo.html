@@ -1,5 +1,10 @@
 {% extends 'template.html' %}
 
+
+{% block title %}
+    Crear Parqueo
+{% endblock %}
+
 {% block content %}
 {% if messages %}
 <ul class="messages">
@@ -14,7 +19,7 @@
 </ul>
 {% endif %}
 
-<h1 class="text-light">Crear Parqueo</h1>
+<h1>Crear Parqueo</h1>
 <div class="container text-light">
     <form action="{% url 'crear_parqueo' %}" method="POST">
         {% csrf_token %}
@@ -27,7 +32,7 @@
             <input type="text" class="form-control" id="descripcion" name="descripcion" required>
         </div>
         
-        <button type="submit" class="btn btn-success w-100">Crear Parqueo</button>
+        <button type="submit" class="btn btn-black btn-lg btn-block">Crear Parqueo</button>
     </form>
 </div>
 {% endblock %}
