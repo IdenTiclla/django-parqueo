@@ -35,7 +35,9 @@
                 </div>
                 <div class="card-footer text-muted text-uppercase">
                     {% if compra.activo %}
-                        Activo
+                        <p class="text-success fs-4">
+                            Suscripcion {{compra.paquete.nombre}} "activada"
+                        </p>    
                     {% else %}
                         Inactivo
                     {% endif %}

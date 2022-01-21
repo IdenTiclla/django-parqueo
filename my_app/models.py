@@ -51,6 +51,7 @@ class CompraPaquete(models.Model):
     fecha_compra = models.DateTimeField(auto_now_add=True)
     tipo_pago = models.CharField(max_length=50)
     activo = models.BooleanField(default=False)
+    pendiente = models.BooleanField(default=True) # nuevo
     comprobante = models.ImageField(upload_to='comprobantes', null=True, blank=True)
 
     class Meta:

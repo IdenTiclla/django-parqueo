@@ -20,8 +20,7 @@
 <div class="container text-dark">
     {% if compras %}
         {% for compra in compras %}
-        {{compra.user}}
-        {{compra.paquete}}
+        <br>
         <div class="card text-center">
             <div class="card-header">
                 {{compra.user.first_name}} {{compra.user.last_name}} ({{compra.user.tipo}}) - {{compra.paquete.nombre}} -
@@ -35,7 +34,7 @@
                     {{compra.paquete.descripcion}}
                 </p>
                 <p>
-                    <a href="{{compra.comprobante.url}}" class="btn btn-danger">Ver comprobante</a>
+                    <a href="{{compra.comprobante.url}}" class="btn btn-black btn-lg">Ver comprobante</a>
                 </p>
             </div>
             <div class="card-footer text-muted text-uppercase">
@@ -51,6 +50,7 @@
                 {% endif %}
             </div>
         </div>
+        <br>
         {% endfor %}
     {% else %}
         <h1>No hay Activaciones pendientes</h1>

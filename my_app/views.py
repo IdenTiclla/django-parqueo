@@ -1,4 +1,5 @@
 from datetime import datetime
+from email.errors import MessageError
 from functools import total_ordering
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -114,7 +115,7 @@ def registrar_vehiculo_view(request):
         new_vehiculo = Vehiculo.objects.create(placa=placa, modelo=modelo, color=color, user=user, tipo=tipo, foto=foto)
         new_vehiculo.save()
         messages.success(request, "Vehiculo registrado exitosamente!")
-        return render(request, "registrar_vehiculo.html")
+        return redirect("mis_vehiculos")
 
 def mis_vehiculos_view(request):
     vehiculos = request.user.vehiculo_set.all()
@@ -144,17 +145,23 @@ def comprar_view(request, id):
 
         compra_paquete.save()
         messages.success(request, "Compra realizada exitosamente!")
-        return render(request, "comprar_paquetes.html")
+        return redirect("mis_suscripciones")
 
 def mis_suscripciones_view(request):
-    compras = CompraPaquete.objects.filter(user=request.user, activo=True)
-    if not compras:
+
+    compras_pendientes = CompraPaquete.objects.filter(user=request.user, pendiente=True)
+    if compras_pendientes:
+        messages.warning(request, "Tu suscripcion esta siendo revisada para su activacion contacte con el administrador 7701626")
+        return redirect("comprar_paquetes")
+
+    compras_activas = CompraPaquete.objects.filter(user=request.user, activo=True, pendiente=False)
+    if not compras_activas:
         messages.warning(request, "No tienes suscripciones registradas compra almenos una suscripcion para continuar")
         return redirect("comprar_paquetes")
-    return render(request, "mis_suscripciones.html", {"compras": compras})
+    return render(request, "mis_suscripciones.html", {"compras": compras_activas})
 
 def activaciones_view(request):
-    compras = CompraPaquete.objects.filter(activo=False)
+    compras = CompraPaquete.objects.filter(pendiente=True)
     return render(request, "activaciones.html", {"compras": compras})
 
 def suscripciones_vencidas_view(request):
@@ -178,6 +185,7 @@ def activar_view(request, id):
     if request.method == "POST":
         compra_paquete = CompraPaquete.objects.get(id=id)
         compra_paquete.activo = True
+        compra_paquete.pendiente = False
         compra_paquete.user.suscrito = True
         compra_paquete.user.save()
         compra_paquete.save()
